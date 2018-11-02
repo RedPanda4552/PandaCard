@@ -30,6 +30,7 @@ import java.net.URISyntaxException;
 
 import io.github.redpanda4552.PandaCard.Main;
 import io.github.redpanda4552.PandaCard.UpdateChecker;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Hyperlink;
@@ -42,21 +43,19 @@ public class AlertAbout extends Alert {
 
     private Main main;
     
-    private ImageView imageView;
-    
     public AlertAbout() {
         super(AlertType.INFORMATION, "", ButtonType.CLOSE);
         
+        Scene scene = getDialogPane().getScene();
+        
         // Set the icon
-        Stage stage = (Stage) getDialogPane().getScene().getWindow();
-        stage.getIcons().add(Gui.LOGO);
+        ((Stage) scene.getWindow()).getIcons().add(Gui.LOGO);
         
         // Title
         setTitle("About PandaCard");
         
         // Right hand graphic
-        imageView = new ImageView(Gui.LOGO);
-        setGraphic(imageView);
+        setGraphic(new ImageView(Gui.LOGO));
         
         // Header content
         StringBuilder sb = new StringBuilder("PandaCard ");
