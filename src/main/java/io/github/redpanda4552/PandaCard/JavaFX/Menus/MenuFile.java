@@ -28,6 +28,7 @@ import java.io.IOException;
 import io.github.redpanda4552.PandaCard.Main;
 import io.github.redpanda4552.PandaCard.JavaFX.Gui;
 import io.github.redpanda4552.PandaCard.JavaFX.GuiMenuBar;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
@@ -38,10 +39,23 @@ public class MenuFile extends AbstractMenu {
     public MenuFile(Main main, Gui guiMain, GuiMenuBar guiMainMenuBar, String displayText) {
         super(main, guiMain, guiMainMenuBar, displayText);
         
-        MenuItem selectFolderMemoryCard = new MenuItem("Select PCSX2 Folder Memory Card");
-        selectFolderMemoryCard.setOnAction((event) -> {
+        MenuItem file = new MenuItem("File (PCSX2, Play!, DobieStation)");
+        file.setOnAction((event) -> {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Select Memory Card File");
+            fileChooser.getExtensionFilters().add(new ExtensionFilter("Memory Card File", "*.ps2"));
+            
+            try {
+                main.setMemoryCard(fileChooser.showOpenDialog(guiMain.getPrimaryStage()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        
+        MenuItem folder = new MenuItem("Folder (PCSX2)");
+        folder.setOnAction((event) -> {
             DirectoryChooser dirChooser = new DirectoryChooser();
-            dirChooser.setTitle("Select PCSX2 Folder Memory Card");
+            dirChooser.setTitle("Select Memory Card Folder");
             
             try {
                 main.setMemoryCard(dirChooser.showDialog(guiMain.getPrimaryStage()));
@@ -49,6 +63,9 @@ public class MenuFile extends AbstractMenu {
                 e.printStackTrace();
             }
         });
+        
+        Menu loadMemoryCard = new Menu("Load Memory Card");
+        loadMemoryCard.getItems().addAll(file, folder);
         
         MenuItem selectSaveFile = new MenuItem("Select PS2 Save Game File");
         selectSaveFile.setOnAction((event) -> {
@@ -69,7 +86,7 @@ public class MenuFile extends AbstractMenu {
             System.exit(0);
         });
         
-        getItems().addAll(selectFolderMemoryCard, selectSaveFile, exit);
+        getItems().addAll(loadMemoryCard, selectSaveFile, exit);
     }
     
     @Override
