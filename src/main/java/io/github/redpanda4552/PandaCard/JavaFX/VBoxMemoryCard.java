@@ -32,19 +32,18 @@ import javafx.scene.control.TreeView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 
 public class VBoxMemoryCard extends VBox {
 
     private Main main;
     
-    private Text hostFolderName;
+    private StyledText hostFolderName;
     private TreeView<String> memoryCardContents = new TreeView<String>();
     
     public VBoxMemoryCard(Main main) {
         HBox.setHgrow(this, Priority.ALWAYS);
         this.main = main;
-        hostFolderName = new Text("File > Load Memory Card");
+        hostFolderName = new StyledText("File > Load Memory Card");
         this.getChildren().addAll(hostFolderName, memoryCardContents);
     }
     

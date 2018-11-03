@@ -48,6 +48,9 @@ public class AlertAbout extends Alert {
         
         Scene scene = getDialogPane().getScene();
         
+        // Apply CSS
+        scene.getStylesheets().add("style.css");
+        
         // Set the icon
         ((Stage) scene.getWindow()).getIcons().add(Gui.LOGO);
         
@@ -77,6 +80,7 @@ public class AlertAbout extends Alert {
         
         if (UpdateChecker.UPDATE_AVAILABLE) {
             Text t = new Text("An update is available! Click the link below to download the latest version.");
+            t.setStyle("-fx-fill: white;");
             flowPane.getChildren().add(t);
         }
         

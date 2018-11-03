@@ -11,13 +11,12 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 
 public class VBoxFAT extends VBox {
 
 	private Main main;
 	
-	private Text title = new Text("File Allocation Table");
+	private StyledText title = new StyledText("File Allocation Table");
 	private ListView<String> fatContents;
 	
 	public VBoxFAT(Main main) {

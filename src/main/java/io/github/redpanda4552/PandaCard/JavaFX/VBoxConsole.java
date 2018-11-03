@@ -28,13 +28,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 
 public class VBoxConsole extends VBox {
 
     private Main main;
     
-    private Text consoleTitle = new Text("Console");
+    private StyledText consoleTitle = new StyledText("Console");
     private ListView<String> consoleFeed = new ListView<String>();
     private ObservableList<String> items;
     

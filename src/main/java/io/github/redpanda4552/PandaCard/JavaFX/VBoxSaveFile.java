@@ -33,7 +33,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 
 // Oracle's own docs suggested using the TableColumn and TableView objects
 // without templates, and they throw compile errors if you actually do. Sue me.
@@ -42,13 +41,13 @@ public class VBoxSaveFile extends VBox{
 
     private Main main;
     
-    private Text hostFileName;
+    private StyledText hostFileName;
     private TableView saveContents;
     
     public VBoxSaveFile(Main main) {
         HBox.setHgrow(this, Priority.ALWAYS);
         this.main = main;
-        hostFileName = new Text("File > Select PS2 Save Game File");
+        hostFileName = new StyledText("File > Select PS2 Save Game File");
         saveContents = new TableView();
         TableColumn ps2FileName = new TableColumn("File Name");
         ps2FileName.setCellValueFactory(new PropertyValueFactory<PS2File, String>("fileName"));

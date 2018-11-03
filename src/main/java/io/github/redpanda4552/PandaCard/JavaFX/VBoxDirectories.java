@@ -12,13 +12,12 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 
 public class VBoxDirectories extends VBox {
 
 	private Main main;
 	
-	private Text title = new Text("Directories");
+	private StyledText title = new StyledText("Directories");
 	private ListView<String> directoryContents;
 	
 	public VBoxDirectories(Main main) {

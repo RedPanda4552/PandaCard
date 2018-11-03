@@ -66,6 +66,7 @@ public class Gui {
             content.getChildren().addAll(memoryCardTablePanel, saveFileTablePanel, fatPanel, directoriesPanel);
             
             Scene scene = new Scene(root, 1200, 800);
+            scene.getStylesheets().add("style.css");
             primaryStage.getIcons().add(LOGO);
             StringBuilder sb = new StringBuilder("PandaCard v");
             sb.append(UpdateChecker.CURRENT_VERSION);
