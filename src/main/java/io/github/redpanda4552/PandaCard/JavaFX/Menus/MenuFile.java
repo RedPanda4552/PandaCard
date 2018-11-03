@@ -28,6 +28,7 @@ import java.io.IOException;
 import io.github.redpanda4552.PandaCard.Main;
 import io.github.redpanda4552.PandaCard.JavaFX.Gui;
 import io.github.redpanda4552.PandaCard.JavaFX.GuiMenuBar;
+import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
@@ -82,12 +83,18 @@ public class MenuFile extends AbstractMenu {
             }
         });
         
+        CheckMenuItem advancedMode = new CheckMenuItem("Advanced Mode");
+        advancedMode.setSelected(false);
+        advancedMode.selectedProperty().addListener((observableValue, oldValue, newValue) -> {
+        	guiMain.setAdvancedMode(newValue);
+        });
+        
         MenuItem exit = new MenuItem("Exit");
         exit.setOnAction((event) -> {
             System.exit(0);
         });
         
-        getItems().addAll(loadMemoryCard, selectSaveFile, new SeparatorMenuItem(), exit);
+        getItems().addAll(loadMemoryCard, selectSaveFile, new SeparatorMenuItem(), advancedMode, new SeparatorMenuItem(), exit);
     }
     
     @Override

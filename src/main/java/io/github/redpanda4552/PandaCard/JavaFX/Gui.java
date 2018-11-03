@@ -35,21 +35,24 @@ public class Gui {
 
     public static final Image LOGO = new Image("PandaCard.png");
     
+    private Main main;
     private Stage primaryStage;
     private VBox root;
     private GuiMenuBar guiMainMenuBar;
     
-    // The main GridPane, and each of it's panes.
-    private HBox content;
+    private HBox content, advanced;
     private VBoxMemoryCard memoryCardTablePanel;
     private VBoxSaveFile saveFileTablePanel;
     private VBoxFAT fatPanel;
     private VBoxDirectories directoriesPanel;
     
+    private boolean advancedMode = false;
+    
     // The console, sitting under the GridPane
     private VBoxConsole console;
     
     public Gui(Main main, Stage primaryStage) {
+    	this.main = main;
         this.primaryStage = primaryStage;
         
         try {
@@ -57,13 +60,13 @@ public class Gui {
             root = new VBox(
                     guiMainMenuBar,
                     content = new HBox(),
+                    advanced = new HBox(),
                     console = new VBoxConsole(main)
             );
             memoryCardTablePanel = new VBoxMemoryCard(main);
             saveFileTablePanel = new VBoxSaveFile(main);
-            fatPanel = new VBoxFAT(main);
-            directoriesPanel = new VBoxDirectories(main);
-            content.getChildren().addAll(memoryCardTablePanel, saveFileTablePanel, fatPanel, directoriesPanel);
+            content.getChildren().addAll(memoryCardTablePanel, saveFileTablePanel);
+            buildAdvanced();
             
             Scene scene = new Scene(root, 1200, 800);
             scene.getStylesheets().add("style.css");
@@ -86,12 +89,30 @@ public class Gui {
         return primaryStage;
     }
     
+    public void setAdvancedMode(boolean value) {
+    	advancedMode = value;
+    	buildAdvanced();
+    }
+    
     public void update() {
         guiMainMenuBar.update();
         memoryCardTablePanel.update();
         saveFileTablePanel.update();
-        fatPanel.update();
-        directoriesPanel.update();
         console.update();
+        
+        if (advancedMode) {
+        	fatPanel.update();
+            directoriesPanel.update();
+        }
+    }
+    
+    private void buildAdvanced() {
+    	fatPanel = new VBoxFAT(main);
+        directoriesPanel = new VBoxDirectories(main);
+        
+        if (advancedMode)
+        	advanced.getChildren().addAll(fatPanel, directoriesPanel);
+        else
+        	advanced.getChildren().clear();
     }
 }
