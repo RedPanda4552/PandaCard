@@ -40,7 +40,7 @@ public class GuiMenuBar extends MenuBar {
         menuModify = new MenuModify(main, guiMain, this, "Modify");
         menuExport = new MenuExport(main, guiMain, this, "Export");
         menuHelp = new MenuHelp(main, guiMain, this, "Help");
-        getMenus().addAll(menuFile, menuModify, menuHelp);
+        getMenus().addAll(menuFile, menuModify, menuExport, menuHelp);
     }
     
     // Probably could do something with reflection here instead of manually firing these.
