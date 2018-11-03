@@ -5,7 +5,6 @@ import io.github.redpanda4552.PandaCard.JavaFX.Gui;
 import io.github.redpanda4552.PandaCard.JavaFX.GuiMenuBar;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.MenuItem;
-import javafx.scene.image.ImageView;
 
 public class MenuExport extends AbstractMenu {
 
@@ -28,7 +27,6 @@ public class MenuExport extends AbstractMenu {
 		
 		attemptDelete = new CheckMenuItem("Attempt to write deleted files");
 		attemptDelete.setSelected(false);
-		attemptDelete.setGraphic(new ImageView(Gui.LOGO));
 		attemptDelete.selectedProperty().addListener((observableValue, oldValue, newValue) -> {
 			main.setAttemptToWriteDeleted(newValue);
 		});
