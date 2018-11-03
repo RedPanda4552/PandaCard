@@ -30,6 +30,7 @@ import io.github.redpanda4552.PandaCard.JavaFX.Gui;
 import io.github.redpanda4552.PandaCard.JavaFX.GuiMenuBar;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -86,7 +87,7 @@ public class MenuFile extends AbstractMenu {
             System.exit(0);
         });
         
-        getItems().addAll(loadMemoryCard, selectSaveFile, exit);
+        getItems().addAll(loadMemoryCard, selectSaveFile, new SeparatorMenuItem(), exit);
     }
     
     @Override

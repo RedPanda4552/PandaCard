@@ -5,6 +5,7 @@ import io.github.redpanda4552.PandaCard.JavaFX.Gui;
 import io.github.redpanda4552.PandaCard.JavaFX.GuiMenuBar;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
 
 public class MenuExport extends AbstractMenu {
 
@@ -31,7 +32,7 @@ public class MenuExport extends AbstractMenu {
 			main.setAttemptToWriteDeleted(newValue);
 		});
 		
-		getItems().addAll(toFile, toFolder, attemptDelete);
+		getItems().addAll(toFile, toFolder, new SeparatorMenuItem(), attemptDelete);
 	}
 
 	@Override
