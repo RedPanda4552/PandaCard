@@ -9,37 +9,37 @@ import javafx.scene.control.SeparatorMenuItem;
 
 public class MenuExport extends AbstractMenu {
 
-	private MenuItem toFile, toFolder;
-	private CheckMenuItem attemptDelete;
-	
-	public MenuExport(Main main, Gui guiMain, GuiMenuBar guiMainMenuBar, String displayText) {
-		super(main, guiMain, guiMainMenuBar, displayText);
-		toFile = new MenuItem("To File (PCSX2, Play!, DobieStation)");
-		toFile.setDisable(true);
-		toFile.setOnAction((event) -> {
-			main.writeToFile();
-		});
-		
-		toFolder = new MenuItem("To Folder (PCSX2)");
-		toFolder.setDisable(true);
-		toFolder.setOnAction((event) -> {
-			main.writeToFolder();
-		});
-		
-		attemptDelete = new CheckMenuItem("Attempt to write deleted files");
-		attemptDelete.setSelected(false);
-		attemptDelete.selectedProperty().addListener((observableValue, oldValue, newValue) -> {
-			main.setAttemptToWriteDeleted(newValue);
-		});
-		
-		getItems().addAll(toFile, toFolder, new SeparatorMenuItem(), attemptDelete);
-	}
+    private MenuItem toFile, toFolder;
+    private CheckMenuItem attemptDelete;
+    
+    public MenuExport(Main main, Gui guiMain, GuiMenuBar guiMainMenuBar, String displayText) {
+        super(main, guiMain, guiMainMenuBar, displayText);
+        toFile = new MenuItem("To File (PCSX2, Play!, DobieStation)");
+        toFile.setDisable(true);
+        toFile.setOnAction((event) -> {
+            main.writeToFile();
+        });
+        
+        toFolder = new MenuItem("To Folder (PCSX2)");
+        toFolder.setDisable(true);
+        toFolder.setOnAction((event) -> {
+            main.writeToFolder();
+        });
+        
+        attemptDelete = new CheckMenuItem("Attempt to write deleted files");
+        attemptDelete.setSelected(false);
+        attemptDelete.selectedProperty().addListener((observableValue, oldValue, newValue) -> {
+            main.setAttemptToWriteDeleted(newValue);
+        });
+        
+        getItems().addAll(toFile, toFolder, new SeparatorMenuItem(), attemptDelete);
+    }
 
-	@Override
-	public void update() {
-		boolean disable = main.getMemoryCard() != null && main.getMemoryCard().getContents().size() > 0;
-		toFile.setDisable(disable);
-		toFolder.setDisable(disable);
-	}
+    @Override
+    public void update() {
+        boolean disable = main.getMemoryCard() != null && main.getMemoryCard().getContents().size() > 0;
+        toFile.setDisable(disable);
+        toFolder.setDisable(disable);
+    }
 
 }

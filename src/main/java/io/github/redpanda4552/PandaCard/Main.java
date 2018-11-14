@@ -41,15 +41,15 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
     
-	private static Main self;
-	
+    private static Main self;
+    
     public static void main(String[] args) {
         new UpdateChecker();
         launch(args);
     }
     
     public static Main getSelf() {
-    	return self;
+        return self;
     }
     
     private Gui guiMain;
@@ -63,7 +63,7 @@ public class Main extends Application {
     
     @Override
     public void start(Stage primaryStage) {
-    	self = this;
+        self = this;
         guiMain = new Gui(this, primaryStage);
     }
     
@@ -163,7 +163,7 @@ public class Main extends Application {
     }
     
     public void setAttemptToWriteDeleted(boolean b) {
-    	this.attemptToWriteDeleted = b;
+        this.attemptToWriteDeleted = b;
     }
     
     /**
@@ -230,16 +230,16 @@ public class Main extends Application {
     }
     
     public void writeToFile() {
-    	if (memoryCard == null) {
-    		console("No content to export!");
-    		return;
-    	}
+        if (memoryCard == null) {
+            console("No content to export!");
+            return;
+        }
     }
     
     public void writeToFolder() {
-    	if (memoryCard == null) {
-    		console("No content to export!");
-    		return;
-    	}
+        if (memoryCard == null) {
+            console("No content to export!");
+            return;
+        }
     }
 }

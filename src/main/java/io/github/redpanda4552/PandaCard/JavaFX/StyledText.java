@@ -9,8 +9,8 @@ import javafx.scene.text.Text;
  */
 public class StyledText extends Text {
 
-	public StyledText(String text) {
-		setText(text);
-		setStyle("-fx-fill: white;");
-	}
+    public StyledText(String text) {
+        setText(text);
+        setStyle("-fx-fill: white;");
+    }
 }

@@ -5,9 +5,9 @@ import javafx.scene.control.ButtonType;
 
 public class AlertYesNo extends Alert {
 
-	public AlertYesNo(String title, String bodyText) {
-		super(AlertType.NONE, bodyText, ButtonType.YES, ButtonType.NO);
-		this.setTitle(title);
-	}
+    public AlertYesNo(String title, String bodyText) {
+        super(AlertType.NONE, bodyText, ButtonType.YES, ButtonType.NO);
+        this.setTitle(title);
+    }
 
 }

@@ -52,7 +52,7 @@ public class Gui {
     private VBoxConsole console;
     
     public Gui(Main main, Stage primaryStage) {
-    	this.main = main;
+        this.main = main;
         this.primaryStage = primaryStage;
         
         try {
@@ -90,8 +90,8 @@ public class Gui {
     }
     
     public void setAdvancedMode(boolean value) {
-    	advancedMode = value;
-    	buildAdvanced();
+        advancedMode = value;
+        buildAdvanced();
     }
     
     public void update() {
@@ -101,18 +101,18 @@ public class Gui {
         console.update();
         
         if (advancedMode) {
-        	fatPanel.update();
+            fatPanel.update();
             directoriesPanel.update();
         }
     }
     
     private void buildAdvanced() {
-    	fatPanel = new VBoxFAT(main);
+        fatPanel = new VBoxFAT(main);
         directoriesPanel = new VBoxDirectories(main);
         
         if (advancedMode)
-        	advanced.getChildren().addAll(fatPanel, directoriesPanel);
+            advanced.getChildren().addAll(fatPanel, directoriesPanel);
         else
-        	advanced.getChildren().clear();
+            advanced.getChildren().clear();
     }
 }

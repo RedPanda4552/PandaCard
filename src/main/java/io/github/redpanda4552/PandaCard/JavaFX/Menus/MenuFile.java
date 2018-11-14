@@ -86,7 +86,7 @@ public class MenuFile extends AbstractMenu {
         CheckMenuItem advancedMode = new CheckMenuItem("Advanced Mode");
         advancedMode.setSelected(false);
         advancedMode.selectedProperty().addListener((observableValue, oldValue, newValue) -> {
-        	guiMain.setAdvancedMode(newValue);
+            guiMain.setAdvancedMode(newValue);
         });
         
         MenuItem exit = new MenuItem("Exit");

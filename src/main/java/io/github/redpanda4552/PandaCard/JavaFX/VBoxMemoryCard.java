@@ -70,18 +70,18 @@ public class VBoxMemoryCard extends VBox {
     }
     
     private TreeItem<String> createTreeItem(Directory directory) {
-    	StringBuilder sb = new StringBuilder(directory.getDirectoryName().trim());
-    	
-    	if (directory.isDeleted()) {
-    		sb.append(" [Deleted]");
-    	}
-    	
-    	TreeItem<String> item = new TreeItem<String>(sb.toString());
-    	
-    	for (Directory sub : directory.getSubdirectories()) {
-    		item.getChildren().add(createTreeItem(sub));
-    	}
-    	
-    	return item;
+        StringBuilder sb = new StringBuilder(directory.getDirectoryName().trim());
+        
+        if (directory.isDeleted()) {
+            sb.append(" [Deleted]");
+        }
+        
+        TreeItem<String> item = new TreeItem<String>(sb.toString());
+        
+        for (Directory sub : directory.getSubdirectories()) {
+            item.getChildren().add(createTreeItem(sub));
+        }
+        
+        return item;
     }
 }

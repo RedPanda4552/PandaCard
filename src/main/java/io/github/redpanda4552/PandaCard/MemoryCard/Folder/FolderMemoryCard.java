@@ -54,7 +54,7 @@ public class FolderMemoryCard extends AbstractMemoryCard {
     private boolean superblockFormatted;
     
     public FolderMemoryCard(File file) throws IOException {
-    	super(file, MemoryCardType.FOLDER_PCSX2);
+        super(file, MemoryCardType.FOLDER_PCSX2);
         this.root = file;
         contents = file.listFiles();
         

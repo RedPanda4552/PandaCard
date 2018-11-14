@@ -14,31 +14,31 @@ import javafx.scene.layout.VBox;
 
 public class VBoxFAT extends VBox {
 
-	private Main main;
-	
-	private StyledText title = new StyledText("File Allocation Table");
-	private ListView<String> fatContents;
-	
-	public VBoxFAT(Main main) {
-		HBox.setHgrow(this, Priority.ALWAYS);
-		this.main = main;
-		fatContents = new ListView<String>();
-		getChildren().addAll(title, fatContents);
-	}
-	
-	public void update() {
-		AbstractMemoryCard memoryCard = main.getMemoryCard();
-		fatContents.setItems(null);
-		
-		if (memoryCard != null && memoryCard instanceof FileMemoryCard) {
-			ArrayList<String> list = new ArrayList<String>();
-			
-			for (Integer i : ((FileMemoryCard) memoryCard).getFAT().getFAT()) {
-				list.add(Integer.toHexString(list.size()) + "  \t" + Integer.toHexString(i));
-			}
-			
-			ObservableList<String> items = FXCollections.observableArrayList(list);
-			fatContents.setItems(items);
-		}
-	}
+    private Main main;
+    
+    private StyledText title = new StyledText("File Allocation Table");
+    private ListView<String> fatContents;
+    
+    public VBoxFAT(Main main) {
+        HBox.setHgrow(this, Priority.ALWAYS);
+        this.main = main;
+        fatContents = new ListView<String>();
+        getChildren().addAll(title, fatContents);
+    }
+    
+    public void update() {
+        AbstractMemoryCard memoryCard = main.getMemoryCard();
+        fatContents.setItems(null);
+        
+        if (memoryCard != null && memoryCard instanceof FileMemoryCard) {
+            ArrayList<String> list = new ArrayList<String>();
+            
+            for (Integer i : ((FileMemoryCard) memoryCard).getFAT().getFAT()) {
+                list.add(Integer.toHexString(list.size()) + "  \t" + Integer.toHexString(i));
+            }
+            
+            ObservableList<String> items = FXCollections.observableArrayList(list);
+            fatContents.setItems(items);
+        }
+    }
 }

@@ -31,7 +31,7 @@ public abstract class AbstractMemoryCard {
     }
     
     public Directory getRootDirectory() {
-    	return directory;
+        return directory;
     }
     
     public boolean isFormatted() {

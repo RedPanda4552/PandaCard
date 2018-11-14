@@ -38,7 +38,7 @@ public class FileMemoryCardPageData extends FileMemoryCardPage {
      */
     public boolean isValidDirectory() {
         return (isFile() ^ isDirectory()) &&
-        		(getPageNumber() >= 0x52 && getPageNumber() < 0x3ed2) &&
+                (getPageNumber() >= 0x52 && getPageNumber() < 0x3ed2) &&
                 (getPointingCluster() >= 0x00 && getPointingCluster() < 0x1FF0) &&
                 (getLength() >= 0 && getLength() <= 8388608) &&
                 (getName().trim().length() <= 32);

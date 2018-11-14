@@ -17,38 +17,38 @@ public class Directory {
     private boolean deleted = false;
     
     public Directory(FileMemoryCard memoryCard, FileMemoryCardPageData[] pages, String directoryName, int clusterIndex, boolean deleted, boolean isRoot) {
-    	this.directoryName = directoryName;
-    	this.deleted = deleted;
-    	boolean nextDeleted = false;
-    	
+        this.directoryName = directoryName;
+        this.deleted = deleted;
+        boolean nextDeleted = false;
+        
         while (clusterIndex != LAST_CLUSTER && clusterIndex != FREE_CLUSTER) {
-        	this.firstPage = pages[clusterIndex * 2];
+            this.firstPage = pages[clusterIndex * 2];
             this.secondPage = pages[(clusterIndex * 2) + 1];
             
             if (firstPage.isValidDirectory()) {
-            	if (!firstPage.getName().trim().startsWith(".") && !firstPage.getName().trim().endsWith(".")) {
-                	subdirectories.add(new Directory(memoryCard, pages, firstPage.getName().trim(), firstPage.getPointingCluster(), nextDeleted, false));
+                if (!firstPage.getName().trim().startsWith(".") && !firstPage.getName().trim().endsWith(".")) {
+                    subdirectories.add(new Directory(memoryCard, pages, firstPage.getName().trim(), firstPage.getPointingCluster(), nextDeleted, false));
                 }
-    		} else {
-    			return;
-    		}
+            } else {
+                return;
+            }
             
             
             if (secondPage.isValidDirectory()) {
-            	if (!secondPage.getName().trim().startsWith(".") && !secondPage.getName().trim().endsWith(".")) {
-                	subdirectories.add(new Directory(memoryCard, pages, secondPage.getName().trim(), secondPage.getPointingCluster(), nextDeleted, false));
+                if (!secondPage.getName().trim().startsWith(".") && !secondPage.getName().trim().endsWith(".")) {
+                    subdirectories.add(new Directory(memoryCard, pages, secondPage.getName().trim(), secondPage.getPointingCluster(), nextDeleted, false));
                 }
-    		} else {
-    			return;
-    		}
+            } else {
+                return;
+            }
             
             clusterIndex = memoryCard.getFAT().getFAT()[firstPage.getClusterNumber()];
             
             // If the next directory (according to the FAT) was deleted
             if ((clusterIndex & 0x80000000) == 0) {
-            	nextDeleted = true;
+                nextDeleted = true;
             } else {
-            	nextDeleted = false;
+                nextDeleted = false;
             }
         }
         
@@ -57,36 +57,36 @@ public class Directory {
         FileMemoryCardPageData page;
         
         if (firstPage.isFile()) {
-        	pageCount = (int) Math.ceil((double) firstPage.getLength() / PAGE_SIZE);
-        	fileBytes = new byte[firstPage.getLength()];
-        	
-        	// TODO Read bytes from page into fileBytes
-        	
-        	firstPS2File = new PS2File(firstPage.getName(), fileBytes);
+            pageCount = (int) Math.ceil((double) firstPage.getLength() / PAGE_SIZE);
+            fileBytes = new byte[firstPage.getLength()];
+            
+            // TODO Read bytes from page into fileBytes
+            
+            firstPS2File = new PS2File(firstPage.getName(), fileBytes);
         }
         
         if (secondPage.isFile()) {
-        	// TODO Above, again
+            // TODO Above, again
         }
     }
     
     public String getDirectoryName() {
-    	return directoryName;
+        return directoryName;
     }
     
     public ArrayList<Directory> getSubdirectories() {
-    	return subdirectories;
+        return subdirectories;
     }
     
     public boolean isDeleted() {
-    	return deleted;
+        return deleted;
     }
     
     public PS2File getFirstPS2File() {
-    	return firstPS2File;
+        return firstPS2File;
     }
     
     public PS2File getSecondPS2File() {
-    	return secondPS2File;
+        return secondPS2File;
     }
 }

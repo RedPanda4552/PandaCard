@@ -47,11 +47,11 @@ public class FileMemoryCardPage {
     }
     
     public int getPageNumber() {
-    	return pageNumber;
+        return pageNumber;
     }
     
     public int getClusterNumber() {
-    	return (int) Math.floorDiv(pageNumber - 0x52, 2);
+        return (int) Math.floorDiv(pageNumber - 0x52, 2);
     }
     
     public byte[] getSpare() {
