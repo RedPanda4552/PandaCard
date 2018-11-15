@@ -35,6 +35,7 @@ import io.github.redpanda4552.PandaCard.MemoryCard.MemoryCardType;
 public class FileMemoryCard extends AbstractMemoryCard {
 
     private final int PAGE_COUNT = 16384;
+    private final int PAGE_COUNT_IFAT = 2;
     private final int PAGE_COUNT_FAT = 64;
     private final int PAGE_COUNT_DATA = 16000;
     private final int PAGE_TOTAL_SIZE_BYTES = 528;
@@ -45,6 +46,7 @@ public class FileMemoryCard extends AbstractMemoryCard {
     private FileMemoryCardPage[] pages = new FileMemoryCardPage[PAGE_COUNT];
     private FileMemoryCardPageData[] dataPages = new FileMemoryCardPageData[PAGE_COUNT_DATA];
     private FAT fat;
+    private IndirectFAT iFAT;
     private int currentPage = 0;
     
     public FileMemoryCard(File memoryCardFile) throws IOException {
@@ -72,10 +74,16 @@ public class FileMemoryCard extends AbstractMemoryCard {
         for (int i = 0x0001; i < 0x0010; i++)
             pages[i] = new FileMemoryCardPage(i, getNextPageBytes());
         
-        // Indirect FAT Table (16-17)
-        for (int j = 0x0010; j < 0x0012; j++)
-            pages[j] = new FileMemoryCardPage(j, getNextPageBytes());
+        FileMemoryCardPageFAT[] iFATPages = new FileMemoryCardPageFAT[PAGE_COUNT_IFAT];
         
+        // Indirect FAT Table (16-17)
+        for (int j = 0x0010; j < 0x0012; j++) {
+            FileMemoryCardPageFAT page = new FileMemoryCardPageFAT(j, getNextPageBytes());
+            pages[j] = page;
+            iFATPages[j - 0x10] = page;
+        }
+        
+        iFAT = new IndirectFAT(iFATPages);
         FileMemoryCardPageFAT[] fatPages = new FileMemoryCardPageFAT[PAGE_COUNT_FAT];
         
         // FAT Table (18-81)
@@ -108,7 +116,6 @@ public class FileMemoryCard extends AbstractMemoryCard {
         
         directory = new Directory(this, dataPages, getHostFile().getAbsolutePath(), 0, false, true);
         formatted = getSuperblock().isFormatted();
-        
     }
     
     private byte[] getNextPageBytes() {
@@ -127,6 +134,10 @@ public class FileMemoryCard extends AbstractMemoryCard {
     
     public FAT getFAT() {
         return fat;
+    }
+    
+    public IndirectFAT getIndirectFAT() {
+        return iFAT;
     }
     
     public FileMemoryCardPageData[] getDataPages() {

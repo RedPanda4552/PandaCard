@@ -43,7 +43,9 @@ public class Gui {
     private HBox content, advanced;
     private VBoxMemoryCard memoryCardTablePanel;
     private VBoxSaveFile saveFileTablePanel;
+    
     private VBoxFAT fatPanel;
+    private VBoxIndirectFAT iFATPanel;
     private VBoxDirectories directoriesPanel;
     
     private boolean advancedMode = false;
@@ -102,16 +104,18 @@ public class Gui {
         
         if (advancedMode) {
             fatPanel.update();
+            iFATPanel.update();
             directoriesPanel.update();
         }
     }
     
     private void buildAdvanced() {
         fatPanel = new VBoxFAT(main);
+        iFATPanel = new VBoxIndirectFAT(main);
         directoriesPanel = new VBoxDirectories(main);
         
         if (advancedMode)
-            advanced.getChildren().addAll(fatPanel, directoriesPanel);
+            advanced.getChildren().addAll(fatPanel, iFATPanel, directoriesPanel);
         else
             advanced.getChildren().clear();
     }
