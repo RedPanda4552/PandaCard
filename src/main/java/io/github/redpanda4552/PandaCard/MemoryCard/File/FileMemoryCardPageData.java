@@ -33,6 +33,22 @@ public class FileMemoryCardPageData extends FileMemoryCardPage {
     }
     
     /**
+     * Gets the index of this page, <i>taking into account the offset of the allocatable clusters</i>.
+     * 
+     */
+    public int getPageNumberOffset() {
+        return pageNumber - 0x52;
+    }
+    
+    /**
+     * Gets the index of this page, <i>taking into account the offset of the allocatable clusters</i>.
+     * @return
+     */
+    public int getClusterNumberOffset() {
+        return (int) Math.floorDiv(pageNumber - 0x52, 2);
+    }
+    
+    /**
      * Check some criteria to verify this is a directory entry, and contains valid data.
      * Note that raw files may still pass this check if just the perfect sequence of bytes
      * is set, so this should not be relied on as a mechanism for determining if a page is

@@ -46,12 +46,15 @@ public class FileMemoryCardPage {
         return data;
     }
     
+    /**
+     * Gets the index of this page, <i>relative to the entire card</i>.
+     */
     public int getPageNumber() {
         return pageNumber;
     }
     
     public int getClusterNumber() {
-        return (int) Math.floorDiv(pageNumber - 0x52, 2);
+        return Math.floorDiv(pageNumber, 2);
     }
     
     public byte[] getSpare() {
