@@ -33,8 +33,10 @@ public class FileMemoryCardPageData extends FileMemoryCardPage {
     }
     
     /**
-     * Check whether this page is a valid directory page. Pages containing raw data
-     * may still have the same bits marked, so we will check multiple places here.
+     * Check some criteria to verify this is a directory entry, and contains valid data.
+     * Note that raw files may still pass this check if just the perfect sequence of bytes
+     * is set, so this should not be relied on as a mechanism for determining if a page is
+     * a directory entry (pointing to either a directory or a file), or a file itself.
      */
     public boolean isValidDirectory() {
         return (isFile() ^ isDirectory()) &&
