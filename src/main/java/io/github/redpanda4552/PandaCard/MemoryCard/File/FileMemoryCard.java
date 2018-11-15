@@ -114,7 +114,7 @@ public class FileMemoryCard extends AbstractMemoryCard {
         for (int z = 0x3FF0; z <= 0x3FFF; z++)
             pages[z] = new FileMemoryCardPage(z, getNextPageBytes());
         
-        directory = new Directory(this, dataPages, getHostFile().getAbsolutePath(), 0, false, true);
+        directory = new Directory(this, dataPages, getHostFile().getAbsolutePath(), 0, 0, false, false, true);
         formatted = getSuperblock().isFormatted();
     }
     
