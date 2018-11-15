@@ -2,14 +2,12 @@ package io.github.redpanda4552.PandaCard.MemoryCard;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import io.github.redpanda4552.PandaCard.util.PS2File;
 
 public abstract class AbstractMemoryCard {
 
     protected File hostFile;
-    //protected HashMap<String, ArrayList<PS2File>> contents = new HashMap<String, ArrayList<PS2File>>();
     protected Directory directory;
     protected boolean formatted, modified = false;
     protected MemoryCardType memoryCardType;
@@ -25,11 +23,7 @@ public abstract class AbstractMemoryCard {
     public File getHostFile() {
         return hostFile;
     }
-    /*
-    public HashMap<String, ArrayList<PS2File>> getContents() {
-        return contents;
-    }
-    */
+    
     public Directory getRootDirectory() {
         return directory;
     }
