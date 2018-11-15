@@ -2,7 +2,6 @@ package io.github.redpanda4552.PandaCard.MemoryCard;
 
 import java.util.ArrayList;
 
-import io.github.redpanda4552.PandaCard.Main;
 import io.github.redpanda4552.PandaCard.MemoryCard.File.FileMemoryCard;
 import io.github.redpanda4552.PandaCard.MemoryCard.File.FileMemoryCardPageData;
 import io.github.redpanda4552.PandaCard.util.PS2File;
