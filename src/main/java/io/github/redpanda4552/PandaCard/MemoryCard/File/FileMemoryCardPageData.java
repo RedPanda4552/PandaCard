@@ -78,6 +78,10 @@ public class FileMemoryCardPageData extends FileMemoryCardPage {
         return (data[0] & 0x20) == 0x20;
     }
     
+    /**
+     * Get the cluster that this page is pointing to.
+     * Only effective for directory entries, file data will likely give back straight garbage.
+     */
     public int getPointingCluster() {
         byte[] bytes = new byte[4];
         
@@ -88,6 +92,11 @@ public class FileMemoryCardPageData extends FileMemoryCardPage {
         return ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).getInt();
     }
     
+    /**
+     * Get the number of items in the directory this page points to, if this page is pointing to a directory,
+     * or the size in bytes of the file this page points to, if this page is pointing to a file. Only effective
+     * for directory entries, file data will likely give back straight garbage.
+     */
     public int getLength() {
         byte[] bytes = new byte[4];
         
@@ -98,6 +107,10 @@ public class FileMemoryCardPageData extends FileMemoryCardPage {
         return ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).getInt();
     }
     
+    /**
+     * Get the name of a directory entry. Only effective for directory entries,
+     * file data will likely give back straight garbage.
+     */
     public String getName() {
         String ret = new String();
         
@@ -110,6 +123,12 @@ public class FileMemoryCardPageData extends FileMemoryCardPage {
         return ret;
     }
     
+    /**
+     * Get a chunk of a directory entry that is documented as "user defined".
+     * Really no idea what is supposed to be here, if this is supposed to be used at all,
+     * it's typically all blank anyways. Only effective for directory entries,
+     * file data will likely give back straight garbage.
+     */
     public String getUserDef() {
         String ret = new String();
         
