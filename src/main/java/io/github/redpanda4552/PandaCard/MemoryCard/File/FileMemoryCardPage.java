@@ -53,6 +53,9 @@ public class FileMemoryCardPage {
         return pageNumber;
     }
     
+    /**
+     * Gets the index of this page, <i>relative to the entire card</i>.
+     */
     public int getClusterNumber() {
         return Math.floorDiv(pageNumber, 2);
     }
