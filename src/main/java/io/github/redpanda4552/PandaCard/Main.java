@@ -58,7 +58,6 @@ public class Main extends Application {
     private File saveFile, memoryCardFile;
     private AbstractSave save;
     private AbstractMemoryCard memoryCard;
-    private FolderMemoryCard folderMemoryCard;
     private boolean attemptToWriteDeleted = false;
     
     @Override
@@ -133,37 +132,6 @@ public class Main extends Application {
         return memoryCard;
     }
     
-    /*
-    public void setFolderMemoryCard(File file) throws IOException {
-        if (file == null) return;
-        
-        if (!file.getName().endsWith(".ps2")) {
-            console("Not a valid PCSX2 Folder Memory Card! It should have a \".ps2\" extension!");
-            return;
-        }
-        
-        this.memoryCardFile = file;
-        this.fileMemoryCard = null;
-        this.folderMemoryCard = new FolderMemoryCard(file);
-        StringBuilder sb = new StringBuilder("PCSX2 Folder Memory Card loaded: \"");
-        sb.append(file.getName()).append("\", ")
-          .append(folderMemoryCard.getContents().size()).append(" items inside");
-        console(sb.toString());
-        if (!folderMemoryCard.isFormatted())
-            console("Warning! Folder Memory Card is not formatted!");
-    }
-    */
-    
-    public File getFolderMemoryCardFile() {
-        return memoryCardFile;
-    }
-    
-    /*
-    public FolderMemoryCard getFolderMemoryCard() {
-        return folderMemoryCard;
-    }
-    */
-    
     public void setAttemptToWriteDeleted(boolean b) {
         this.attemptToWriteDeleted = b;
     }
@@ -190,45 +158,6 @@ public class Main extends Application {
         sb.append(save.getDirectoryName()).append("\" to Memory Card (")
           .append(save.getFiles().size()).append(" files)");
         console(sb.toString());
-        
-        /*
-        File saveRoot = new File(folderMemoryCard.getHostFile().toString() + "/" + save.getDirectoryName());
-        
-        if (saveRoot.exists())
-            console("A folder for this game already exists in the Folder Memory Card, overwriting its contents...");
-        else
-            if (!saveRoot.mkdir()) {
-                console("Failed to create root folder for this game in the Folder Memory Card!");
-                return;
-            }
-        
-        File out = null;
-        
-        try {
-            for (PS2File ps2File : save.getFiles()) {
-                out = new File(saveRoot.toString() + "/" + ps2File.getFileName());
-                
-                if (out.exists())
-                    console("File " + ps2File.getFileName() + " already exists, overwriting...");
-                else
-                    if (!out.createNewFile()) {
-                        console("Failed to create empty file \"" + ps2File.getFileName() + "\"!");
-                        return;
-                    }
-                OutputStream oStream = Files.newOutputStream(out.toPath());
-                oStream.write(ps2File.getData());
-                oStream.close();
-                console("Successfully wrote file \"" + ps2File.getFileName() + "\" (" + ps2File.getSize() + " bytes)");
-            }
-            
-            // Forces a refresh of the list once we're done writing to it
-            setMemoryCard(memoryCardFile);
-        } catch (IOException e) {
-            console("An IOException occurred while trying to write file \"" + out.getName() + "\"!");
-            e.printStackTrace();
-            return;
-        }
-        */
     }
     
     public void writeToFile(File file) {

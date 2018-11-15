@@ -138,15 +138,4 @@ public class FileMemoryCardPageData extends FileMemoryCardPage {
         
         return ret;
     }
-
-    // TODO Remove
-    public String stringifyRearBytes() {
-        String ret = new String();
-        
-        for (int i = 0; i < 416; i++) {
-            ret += Character.valueOf((char) data[0x60 + i]);
-        }
-        
-        return ret;
-    }
 }
