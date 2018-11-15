@@ -16,6 +16,17 @@ public class Directory {
     private PS2File ps2File;
     private boolean deleted = false;
     
+    /**
+     * Low tech, single instance constructor for creating new directory entries to insert into an existing directory.
+     */
+    public Directory(String directoryName, PS2File ps2File) {
+        this.directoryName = directoryName;
+        this.ps2File = ps2File;
+    }
+    
+    /**
+     * High tech, recursive constructor for an initial directory build.
+     */
     public Directory(FileMemoryCard memoryCard, FileMemoryCardPageData[] pages, String directoryName, int parentPageIndex, int clusterIndex, boolean isFile, boolean deleted, boolean isRoot) {
         this.directoryName = directoryName;
         this.deleted = deleted;
@@ -79,6 +90,10 @@ public class Directory {
     
     public ArrayList<Directory> getSubdirectories() {
         return subdirectories;
+    }
+    
+    public void addSubdirectory(Directory subdirectory) {
+        subdirectories.add(subdirectory);
     }
     
     public boolean isDeleted() {

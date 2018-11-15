@@ -6,6 +6,8 @@ import io.github.redpanda4552.PandaCard.JavaFX.GuiMenuBar;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 
 public class MenuExport extends AbstractMenu {
 
@@ -17,7 +19,11 @@ public class MenuExport extends AbstractMenu {
         toFile = new MenuItem("To File (PCSX2, Play!, DobieStation)");
         toFile.setDisable(true);
         toFile.setOnAction((event) -> {
-            main.writeToFile();
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Save to Memory Card File");
+            fileChooser.getExtensionFilters().add(new ExtensionFilter("Memory Card File", "*.ps2"));
+            
+            main.writeToFile(fileChooser.showSaveDialog(guiMain.getPrimaryStage()));
         });
         
         toFolder = new MenuItem("To Folder (PCSX2)");
@@ -37,7 +43,7 @@ public class MenuExport extends AbstractMenu {
 
     @Override
     public void update() {
-        boolean disable = main.getMemoryCard() != null && main.getMemoryCard().getContents().size() > 0;
+        boolean disable = main.getMemoryCard() == null || main.getMemoryCard().getRootDirectory() == null;
         toFile.setDisable(disable);
         toFolder.setDisable(disable);
     }

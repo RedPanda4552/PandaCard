@@ -46,6 +46,6 @@ public class MenuModify extends AbstractMenu {
 
     @Override
     public void update() {
-        mergeSave.setDisable(main.getSaveGame() == null || main.getFolderMemoryCard() == null);
+        mergeSave.setDisable(main.getSaveGame() == null || main.getMemoryCard() == null);
     }
 }

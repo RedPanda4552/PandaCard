@@ -120,7 +120,7 @@ public class Main extends Application {
         
         StringBuilder sb = new StringBuilder("Loaded memory card \"");
         sb.append(memoryCardFile.getName()).append("\" (")
-          .append(memoryCard.getContents().size()).append(" files)");
+          .append(memoryCard.getFileCount()).append(" files)");
         console(sb.toString());
         
         if (!memoryCard.isFormatted()) {
@@ -158,9 +158,11 @@ public class Main extends Application {
         return memoryCardFile;
     }
     
+    /*
     public FolderMemoryCard getFolderMemoryCard() {
         return folderMemoryCard;
     }
+    */
     
     public void setAttemptToWriteDeleted(boolean b) {
         this.attemptToWriteDeleted = b;
@@ -173,7 +175,7 @@ public class Main extends Application {
     public void mergeSave() {
         if (save == null) return;
         
-        if (memoryCard.getContents().containsKey(save.getDirectoryName())) {
+        if (memoryCard.containsDirectory(save.getDirectoryName())) {
             AlertYesNo alert = new AlertYesNo("Overwrite Files", "A directory matching this save file already exists. Overwrite it?");
             Optional<ButtonType> buttonPressed = alert.showAndWait();
             
@@ -182,7 +184,7 @@ public class Main extends Application {
             }
         }
         
-        memoryCard.getContents().put(save.getDirectoryName(), save.getFiles());
+        memoryCard.insertDirectory(save.getDirectoryName(), save.getFiles());
         memoryCard.setModified(true);
         StringBuilder sb = new StringBuilder("Adding game save \"");
         sb.append(save.getDirectoryName()).append("\" to Memory Card (")
@@ -229,7 +231,7 @@ public class Main extends Application {
         */
     }
     
-    public void writeToFile() {
+    public void writeToFile(File file) {
         if (memoryCard == null) {
             console("No content to export!");
             return;
