@@ -35,7 +35,7 @@ import javafx.stage.FileChooser.ExtensionFilter;
 public class MenuExport extends AbstractMenu {
 
     private MenuItem toFile, toFolder;
-    private CheckMenuItem attemptDelete;
+    private CheckMenuItem autoFormat, attemptDelete;
     
     public MenuExport(Main main, Gui guiMain, GuiMenuBar guiMainMenuBar, String displayText) {
         super(main, guiMain, guiMainMenuBar, displayText);
@@ -55,13 +55,19 @@ public class MenuExport extends AbstractMenu {
             main.writeToFolder();
         });
         
+        autoFormat = new CheckMenuItem("Format Exported Memory Card");
+        autoFormat.setSelected(true);
+        autoFormat.selectedProperty().addListener((observableValue, oldValue, newValue) -> {
+            main.setAutoFormat(newValue);
+        });
+        
         attemptDelete = new CheckMenuItem("Attempt to write deleted files");
         attemptDelete.setSelected(false);
         attemptDelete.selectedProperty().addListener((observableValue, oldValue, newValue) -> {
             main.setAttemptToWriteDeleted(newValue);
         });
         
-        getItems().addAll(toFile, toFolder, new SeparatorMenuItem(), attemptDelete);
+        getItems().addAll(toFile, toFolder, new SeparatorMenuItem(), autoFormat, attemptDelete);
     }
 
     @Override

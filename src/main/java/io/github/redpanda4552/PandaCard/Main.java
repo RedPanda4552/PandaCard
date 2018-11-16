@@ -58,7 +58,7 @@ public class Main extends Application {
     private File saveFile, memoryCardFile;
     private AbstractSave save;
     private AbstractMemoryCard memoryCard;
-    private boolean attemptToWriteDeleted = false;
+    private boolean autoFormat = true, attemptToWriteDeleted = false;
     
     @Override
     public void start(Stage primaryStage) {
@@ -134,6 +134,10 @@ public class Main extends Application {
     
     public void setAttemptToWriteDeleted(boolean b) {
         this.attemptToWriteDeleted = b;
+    }
+    
+    public void setAutoFormat(boolean b) {
+        this.autoFormat = b;
     }
     
     /**
