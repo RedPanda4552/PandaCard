@@ -33,21 +33,6 @@ import io.github.redpanda4552.PandaCard.MemoryCard.Directory;
 
 public class FolderMemoryCard extends AbstractMemoryCard {
 
-    /**
-     * The size of the "magic" value of the superblock, which indicates if the card is formatted.
-     */
-    private final int MAGIC_SIZE = 28;
-    
-    /**
-     * The ASCII string of the "magic" value of the superblock when a card is formatted.
-     */
-    private final String MAGIC_STRING = "Sony PS2 Memory Card Format ";
-    
-    /**
-     * The file name given to the superblock file in a PCSX2 Folder Memory Card
-     */
-    public static final String SUPERBLOCK_NAME = "_pcsx2_superblock";
-    
     private File root;
     private File superblockFile;
     private File[] contents;
@@ -58,7 +43,7 @@ public class FolderMemoryCard extends AbstractMemoryCard {
         contents = file.listFiles();
         
         for (File f : contents) {
-            if (f.getName().equals(SUPERBLOCK_NAME)) {
+            if (f.getName().equals(AbstractMemoryCard.SUPERBLOCK_NAME)) {
                 superblockFile = f;
                 break;
             }

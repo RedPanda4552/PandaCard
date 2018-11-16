@@ -30,6 +30,21 @@ import io.github.redpanda4552.PandaCard.util.PS2File;
 
 public abstract class AbstractMemoryCard {
 
+    /**
+     * The size of the "magic" value of the superblock, which indicates if the card is formatted.
+     */
+    public static final int MAGIC_SIZE = 28;
+    
+    /**
+     * The ASCII string of the "magic" value of the superblock when a card is formatted.
+     */
+    public static final String MAGIC_STRING = "Sony PS2 Memory Card Format ";
+    
+    /**
+     * The file name given to the superblock file in a PCSX2 Folder Memory Card
+     */
+    public static final String SUPERBLOCK_NAME = "_pcsx2_superblock";
+    
     protected File hostFile;
     protected Directory directory;
     protected boolean formatted, modified = false;

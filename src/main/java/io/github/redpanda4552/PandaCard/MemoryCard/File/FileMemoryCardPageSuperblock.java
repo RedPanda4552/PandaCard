@@ -26,10 +26,10 @@ package io.github.redpanda4552.PandaCard.MemoryCard.File;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
+import io.github.redpanda4552.PandaCard.MemoryCard.AbstractMemoryCard;
+
 public class FileMemoryCardPageSuperblock extends FileMemoryCardPage {
 
-    private final String MEMORY_CARD_FORMAT_STRING = "Sony PS2 Memory Card Format ";
-    
     private String formatString = new String();
     private boolean formatted;
     
@@ -40,7 +40,7 @@ public class FileMemoryCardPageSuperblock extends FileMemoryCardPage {
             formatString += Character.valueOf((char) data[i]).toString();
         }
         
-        formatted = formatString.equals(MEMORY_CARD_FORMAT_STRING);
+        formatted = formatString.equals(AbstractMemoryCard.MAGIC_STRING);
     }
     
     public boolean isFormatted() {

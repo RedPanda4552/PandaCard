@@ -31,7 +31,6 @@ import java.util.ArrayList;
 
 import io.github.redpanda4552.PandaCard.MemoryCard.File.FileMemoryCard;
 import io.github.redpanda4552.PandaCard.MemoryCard.File.FileMemoryCardPageData;
-import io.github.redpanda4552.PandaCard.MemoryCard.Folder.FolderMemoryCard;
 import io.github.redpanda4552.PandaCard.util.PS2File;
 
 public class Directory {
@@ -60,7 +59,7 @@ public class Directory {
         
         if (file.isDirectory()) {
             for (File sub : file.listFiles()) {
-                if (sub.getName().equals(FolderMemoryCard.SUPERBLOCK_NAME))
+                if (sub.getName().equals(AbstractMemoryCard.SUPERBLOCK_NAME))
                     continue;
                 
                 subdirectories.add(new Directory(sub, sub.getName()));
