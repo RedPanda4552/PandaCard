@@ -30,7 +30,6 @@ import java.nio.file.Files;
 
 import io.github.redpanda4552.PandaCard.MemoryCard.AbstractMemoryCard;
 import io.github.redpanda4552.PandaCard.MemoryCard.Directory;
-import io.github.redpanda4552.PandaCard.MemoryCard.MemoryCardType;
 
 public class FolderMemoryCard extends AbstractMemoryCard {
 
@@ -54,7 +53,7 @@ public class FolderMemoryCard extends AbstractMemoryCard {
     private File[] contents;
     
     public FolderMemoryCard(File file) throws IOException {
-        super(file, MemoryCardType.FOLDER_PCSX2);
+        super(file);
         this.root = file;
         contents = file.listFiles();
         

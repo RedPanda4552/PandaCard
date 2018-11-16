@@ -33,11 +33,9 @@ public abstract class AbstractMemoryCard {
     protected File hostFile;
     protected Directory directory;
     protected boolean formatted, modified = false;
-    protected MemoryCardType memoryCardType;
     
-    public AbstractMemoryCard(File file, MemoryCardType memoryCardType) {
+    public AbstractMemoryCard(File file) {
         this.hostFile = file;
-        this.memoryCardType = memoryCardType;
     }
 
     /**
@@ -53,10 +51,6 @@ public abstract class AbstractMemoryCard {
     
     public boolean isFormatted() {
         return formatted;
-    }
-    
-    public MemoryCardType getMemoryCardType() {
-        return memoryCardType;
     }
     
     public void setModified(boolean b) {

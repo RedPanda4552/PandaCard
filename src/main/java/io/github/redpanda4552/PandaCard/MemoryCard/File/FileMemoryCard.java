@@ -30,7 +30,6 @@ import java.nio.file.Files;
 
 import io.github.redpanda4552.PandaCard.MemoryCard.AbstractMemoryCard;
 import io.github.redpanda4552.PandaCard.MemoryCard.Directory;
-import io.github.redpanda4552.PandaCard.MemoryCard.MemoryCardType;
 
 public class FileMemoryCard extends AbstractMemoryCard {
 
@@ -50,7 +49,7 @@ public class FileMemoryCard extends AbstractMemoryCard {
     private int currentPage = 0;
     
     public FileMemoryCard(File memoryCardFile) throws IOException {
-        super(memoryCardFile, MemoryCardType.FILE_MULTIPLATFORM);
+        super(memoryCardFile);
         InputStream iStream = Files.newInputStream(hostFile.toPath());
         int bytesRead = 0, dataCtr = 0;
         byte[] bytesIn = new byte[16];
