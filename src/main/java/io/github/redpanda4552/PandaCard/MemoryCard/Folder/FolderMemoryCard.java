@@ -29,6 +29,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 
 import io.github.redpanda4552.PandaCard.MemoryCard.AbstractMemoryCard;
+import io.github.redpanda4552.PandaCard.MemoryCard.Directory;
 import io.github.redpanda4552.PandaCard.MemoryCard.MemoryCardType;
 
 public class FolderMemoryCard extends AbstractMemoryCard {
@@ -46,12 +47,11 @@ public class FolderMemoryCard extends AbstractMemoryCard {
     /**
      * The file name given to the superblock file in a PCSX2 Folder Memory Card
      */
-    private final String SUPERBLOCK_NAME = "_pcsx2_superblock";
+    public static final String SUPERBLOCK_NAME = "_pcsx2_superblock";
     
     private File root;
     private File superblockFile;
     private File[] contents;
-    private boolean superblockFormatted;
     
     public FolderMemoryCard(File file) throws IOException {
         super(file, MemoryCardType.FOLDER_PCSX2);
@@ -69,14 +69,11 @@ public class FolderMemoryCard extends AbstractMemoryCard {
         byte[] superblockBuf = new byte[MAGIC_SIZE];
         iStream.read(superblockBuf);
         iStream.close();
-        superblockFormatted = new String(superblockBuf).equals(MAGIC_STRING);
+        formatted = new String(superblockBuf).equals(MAGIC_STRING);
+        directory = new Directory(getHostFile(), getHostFile().getAbsolutePath());
     }
     
     public File getRoot() {
         return root;
-    }
-    
-    public boolean isSuperblockFormatted() {
-        return superblockFormatted;
     }
 }

@@ -23,10 +23,15 @@
  */
 package io.github.redpanda4552.PandaCard.MemoryCard;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.ArrayList;
 
 import io.github.redpanda4552.PandaCard.MemoryCard.File.FileMemoryCard;
 import io.github.redpanda4552.PandaCard.MemoryCard.File.FileMemoryCardPageData;
+import io.github.redpanda4552.PandaCard.MemoryCard.Folder.FolderMemoryCard;
 import io.github.redpanda4552.PandaCard.util.PS2File;
 
 public class Directory {
@@ -48,7 +53,33 @@ public class Directory {
     }
     
     /**
-     * High tech, recursive constructor for an initial directory build.
+     * Low tech, recursive constructor for an initial directory build on a folder memory card.
+     */
+    public Directory(File file, String directoryName) {
+        this.directoryName = directoryName;
+        
+        if (file.isDirectory()) {
+            for (File sub : file.listFiles()) {
+                if (sub.getName().equals(FolderMemoryCard.SUPERBLOCK_NAME))
+                    continue;
+                
+                subdirectories.add(new Directory(sub, sub.getName()));
+            }
+        } else if (file.isFile()) {
+            try {
+                InputStream iStream = Files.newInputStream(file.toPath());
+                byte[] fileBytes = new byte[(int) file.length()];
+                iStream.read(fileBytes);
+                iStream.close();
+                ps2File = new PS2File(file.getName(), fileBytes);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    /**
+     * High tech, recursive constructor for an initial directory build on a file memory card.
      */
     public Directory(FileMemoryCard memoryCard, FileMemoryCardPageData[] pages, String directoryName, int parentPageIndex, int clusterIndex, boolean isFile, boolean deleted, boolean isRoot) {
         this.directoryName = directoryName;
