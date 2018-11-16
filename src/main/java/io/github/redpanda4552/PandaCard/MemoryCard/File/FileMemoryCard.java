@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 
+import io.github.redpanda4552.PandaCard.Main;
 import io.github.redpanda4552.PandaCard.MemoryCard.AbstractMemoryCard;
 import io.github.redpanda4552.PandaCard.MemoryCard.Directory;
 
@@ -62,7 +63,8 @@ public class FileMemoryCard extends AbstractMemoryCard {
                 }
             }
         } catch (ArrayIndexOutOfBoundsException e) {
-            throw new IOException("Memory card exceeded expected byte count! Is it larger than 8 MB?");
+            Main.getSelf().console("Memory card exceeded expected byte count! Is it larger than 8 MB?");
+            return;
         }
         
         
