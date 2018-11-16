@@ -26,7 +26,8 @@ package io.github.redpanda4552.PandaCard.JavaFX;
 import io.github.redpanda4552.PandaCard.Main;
 import io.github.redpanda4552.PandaCard.MemoryCard.AbstractMemoryCard;
 import io.github.redpanda4552.PandaCard.MemoryCard.Directory;
-import io.github.redpanda4552.PandaCard.MemoryCard.MemoryCardType;
+import io.github.redpanda4552.PandaCard.MemoryCard.File.FileMemoryCard;
+import io.github.redpanda4552.PandaCard.MemoryCard.Folder.FolderMemoryCard;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.layout.HBox;
@@ -53,9 +54,9 @@ public class VBoxMemoryCard extends VBox {
         if (memoryCard != null) {
             StringBuilder sb = new StringBuilder();
             
-            if (memoryCard.getMemoryCardType() == MemoryCardType.FOLDER_PCSX2) {
+            if (memoryCard instanceof FolderMemoryCard) {
                 sb.append(" [PCSX2 Folder]");
-            } else if (memoryCard.getMemoryCardType() == MemoryCardType.FILE_MULTIPLATFORM) {
+            } else if (memoryCard instanceof FileMemoryCard) {
                 sb.append(" [PCSX2/Play!/DobieStation File]");
             }
             
