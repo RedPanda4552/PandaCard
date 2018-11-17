@@ -23,14 +23,23 @@
  */
 package io.github.redpanda4552.PandaCard.JavaFX;
 
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.stage.Stage;
 
 public class AlertYesNo extends Alert {
 
     public AlertYesNo(String title, String bodyText) {
         super(AlertType.NONE, bodyText, ButtonType.YES, ButtonType.NO);
         this.setTitle(title);
+        Scene scene = getDialogPane().getScene();
+        
+        // Apply CSS
+        scene.getStylesheets().add("style.css");
+        
+        // Set the icon
+        ((Stage) scene.getWindow()).getIcons().add(Gui.LOGO);
     }
 
 }
