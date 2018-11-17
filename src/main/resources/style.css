@@ -24,9 +24,14 @@
      * text; selected items in menus, lists, trees, and tables; progress bars */
     -fx-accent: rgb(191, 63, 63);
     -fx-focus-color: -fx-accent;
+    -fx-focused-base: -fx-accent;
 
     /* color of non-focused yet selected elements */
     -fx-selection-bar-non-focused: rgb(127, 127, 127);
+}
+
+.button {
+    -fx-base: rgb(31, 31, 31);
 }
 
 /* Fix derived prompt color for text fields */
