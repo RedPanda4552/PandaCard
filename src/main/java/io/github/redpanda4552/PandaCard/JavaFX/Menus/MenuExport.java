@@ -23,6 +23,7 @@
  */
 package io.github.redpanda4552.PandaCard.JavaFX.Menus;
 
+import io.github.redpanda4552.PandaCard.Config;
 import io.github.redpanda4552.PandaCard.Main;
 import io.github.redpanda4552.PandaCard.JavaFX.Gui;
 import io.github.redpanda4552.PandaCard.JavaFX.GuiMenuBar;
@@ -58,13 +59,13 @@ public class MenuExport extends AbstractMenu {
         autoFormat = new CheckMenuItem("Format Exported Memory Card");
         autoFormat.setSelected(true);
         autoFormat.selectedProperty().addListener((observableValue, oldValue, newValue) -> {
-            main.setAutoFormat(newValue);
+            Config.autoFormat = newValue;
         });
         
         attemptDelete = new CheckMenuItem("Attempt to write deleted files");
         attemptDelete.setSelected(false);
         attemptDelete.selectedProperty().addListener((observableValue, oldValue, newValue) -> {
-            main.setAttemptToWriteDeleted(newValue);
+            Config.attemptToWriteDeleted = newValue;
         });
         
         getItems().addAll(toFile, toFolder, new SeparatorMenuItem(), autoFormat, attemptDelete);
