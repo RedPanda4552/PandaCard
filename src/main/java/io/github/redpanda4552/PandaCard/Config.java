@@ -25,5 +25,5 @@ package io.github.redpanda4552.PandaCard;
 
 public class Config {
 
-    public static boolean showRealName = true, autoFormat = true, attemptToWriteDeleted = false;
+    public static boolean showRealName = true, attemptToWriteDeleted = false;
 }

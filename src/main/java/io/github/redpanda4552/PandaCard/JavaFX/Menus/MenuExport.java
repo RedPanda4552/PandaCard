@@ -56,12 +56,6 @@ public class MenuExport extends AbstractMenu {
             main.writeToFolder();
         });
         
-        autoFormat = new CheckMenuItem("Format Exported Memory Card");
-        autoFormat.setSelected(true);
-        autoFormat.selectedProperty().addListener((observableValue, oldValue, newValue) -> {
-            Config.autoFormat = newValue;
-        });
-        
         attemptDelete = new CheckMenuItem("Attempt to write deleted files");
         attemptDelete.setSelected(false);
         attemptDelete.selectedProperty().addListener((observableValue, oldValue, newValue) -> {
