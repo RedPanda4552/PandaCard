@@ -29,18 +29,20 @@ import io.github.redpanda4552.PandaCard.JavaFX.Menus.MenuExport;
 import io.github.redpanda4552.PandaCard.JavaFX.Menus.MenuFile;
 import io.github.redpanda4552.PandaCard.JavaFX.Menus.MenuHelp;
 import io.github.redpanda4552.PandaCard.JavaFX.Menus.MenuModify;
+import io.github.redpanda4552.PandaCard.JavaFX.Menus.MenuView;
 import javafx.scene.control.MenuBar;
 
 public class GuiMenuBar extends MenuBar {
 
-    private AbstractMenu menuFile, menuModify, menuExport, menuHelp;
+    private AbstractMenu menuFile, menuModify, menuExport, menuView, menuHelp;
     
     public GuiMenuBar(Main main, Gui guiMain) {
         menuFile = new MenuFile(main, guiMain, this, "File");
         menuModify = new MenuModify(main, guiMain, this, "Modify");
         menuExport = new MenuExport(main, guiMain, this, "Export");
+        menuView = new MenuView(main, guiMain, this, "View");
         menuHelp = new MenuHelp(main, guiMain, this, "Help");
-        getMenus().addAll(menuFile, menuModify, menuExport, menuHelp);
+        getMenus().addAll(menuFile, menuModify, menuExport, menuView, menuHelp);
     }
     
     // Probably could do something with reflection here instead of manually firing these.
@@ -49,6 +51,7 @@ public class GuiMenuBar extends MenuBar {
         menuFile.update();
         menuModify.update();
         menuExport.update();
+        menuView.update();
         menuHelp.update();
     }
 }

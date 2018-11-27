@@ -23,6 +23,9 @@
  */
 package io.github.redpanda4552.PandaCard.JavaFX;
 
+import java.util.HashMap;
+
+import io.github.redpanda4552.PandaCard.Config;
 import io.github.redpanda4552.PandaCard.Main;
 import io.github.redpanda4552.PandaCard.MemoryCard.AbstractMemoryCard;
 import io.github.redpanda4552.PandaCard.MemoryCard.Directory;
@@ -40,6 +43,8 @@ public class VBoxMemoryCard extends VBox {
     
     private StyledText hostFolderName;
     private TreeView<String> memoryCardContents = new TreeView<String>();
+    
+    private HashMap<String, String> serialNameCache = new HashMap<String, String>();
     
     public VBoxMemoryCard(Main main) {
         HBox.setHgrow(this, Priority.ALWAYS);
@@ -71,7 +76,28 @@ public class VBoxMemoryCard extends VBox {
     }
     
     private TreeItem<String> createTreeItem(Directory directory) {
-        StringBuilder sb = new StringBuilder(directory.getDirectoryName().trim());
+        String gameName = null;
+        StringBuilder sb = new StringBuilder();
+        
+        // If this is a directory entry for a directory, not for a file.
+        // This runs the game db lookup for the game's folder, but not it's files.
+        if (Config.showRealName && directory.getPS2File() == null) {
+            String serial = directory.getDirectoryName().trim();
+            
+            if (serialNameCache.containsKey(serial)) {
+                gameName = serialNameCache.get(serial);
+            } else {
+                if (serial.length() > 10)
+                    serial = serial.substring(2, 12);
+                
+                gameName = main.getGameDB().getGameName(serial);
+            }
+        }
+        
+        if (gameName == null)
+            gameName = directory.getDirectoryName().trim();
+        
+        sb.append(gameName);
         
         if (directory.isDeleted()) {
             sb.append(" [Deleted]");
