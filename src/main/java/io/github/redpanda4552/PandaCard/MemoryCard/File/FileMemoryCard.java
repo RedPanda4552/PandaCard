@@ -31,6 +31,7 @@ import java.nio.file.Files;
 import io.github.redpanda4552.PandaCard.Main;
 import io.github.redpanda4552.PandaCard.MemoryCard.AbstractMemoryCard;
 import io.github.redpanda4552.PandaCard.MemoryCard.Directory;
+import io.github.redpanda4552.PandaCard.util.PS2Time;
 
 public class FileMemoryCard extends AbstractMemoryCard {
 
@@ -115,7 +116,8 @@ public class FileMemoryCard extends AbstractMemoryCard {
         for (int z = 0x3FF0; z <= 0x3FFF; z++)
             pages[z] = new FileMemoryCardPage(z, getNextPageBytes());
         
-        directory = new Directory(this, dataPages, getHostFile().getAbsolutePath(), 0, 0, false, false, true);
+        directory = new Directory(this, dataPages, getHostFile().getAbsolutePath(), PS2Time.fromCurrent(), PS2Time.fromCurrent(), 0, 0, false, false, true);
+        version = getSuperblock().getVersion();
         formatted = getSuperblock().isFormatted();
     }
     

@@ -30,7 +30,7 @@ import io.github.redpanda4552.PandaCard.MemoryCard.AbstractMemoryCard;
 
 public class FileMemoryCardPageSuperblock extends FileMemoryCardPage {
 
-    private String formatString = new String();
+    private String formatString = new String(), version = new String();
     private boolean formatted;
     
     public FileMemoryCardPageSuperblock(int pageNumber, byte[] rawData) {
@@ -41,6 +41,14 @@ public class FileMemoryCardPageSuperblock extends FileMemoryCardPage {
         }
         
         formatted = formatString.equals(AbstractMemoryCard.MAGIC_STRING);
+        
+        for (int j = 0x1c; j < 0x28; j++) {
+            version += Character.valueOf((char) data[j]).toString();
+        }
+    }
+    
+    public String getVersion() {
+        return version;
     }
     
     public boolean isFormatted() {

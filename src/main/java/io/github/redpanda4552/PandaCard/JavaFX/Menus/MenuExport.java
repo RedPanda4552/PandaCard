@@ -30,6 +30,7 @@ import io.github.redpanda4552.PandaCard.JavaFX.GuiMenuBar;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 
@@ -53,7 +54,10 @@ public class MenuExport extends AbstractMenu {
         toFolder = new MenuItem("To Folder (PCSX2)");
         toFolder.setDisable(true);
         toFolder.setOnAction((event) -> {
-            main.writeToFolder();
+            DirectoryChooser directoryChooser = new DirectoryChooser();
+            directoryChooser.setTitle("Save to Memory Card Folder");
+            
+            main.writeToFolder(directoryChooser.showDialog(guiMain.getPrimaryStage()));
         });
         
         attemptDelete = new CheckMenuItem("Attempt to write deleted files");

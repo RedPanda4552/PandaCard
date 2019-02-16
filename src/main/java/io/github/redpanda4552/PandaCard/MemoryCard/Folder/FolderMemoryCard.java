@@ -51,10 +51,13 @@ public class FolderMemoryCard extends AbstractMemoryCard {
         
         InputStream iStream = Files.newInputStream(superblockFile.toPath());
         byte[] superblockBuf = new byte[MAGIC_SIZE];
+        byte[] versionBuf = new byte[12];
         iStream.read(superblockBuf);
+        iStream.read(versionBuf);
         iStream.close();
         formatted = new String(superblockBuf).equals(MAGIC_STRING);
         directory = new Directory(getHostFile(), getHostFile().getAbsolutePath());
+        version = new String(versionBuf);
     }
     
     public File getRoot() {

@@ -63,13 +63,18 @@ public class VBoxDirectories extends VBox {
                     StringBuilder sb = new StringBuilder("Page = ").append(Integer.toHexString(page.getPageNumber()));
                     sb.append("  \tCluster = ").append(Integer.toHexString(page.getClusterNumberOffset()));
                     sb.append("  \tName = ").append(page.getName());
+                    sb.append("  \tMode = ").append(Integer.toHexString(page.getMode()));
                     sb.append("  \tType = ").append((page.isFile() ? (page.isDirectory() ? "Both Flags" : "File") : (page.isDirectory() ? "Directory" : "No Flags")));
                     sb.append("  \tLength = ").append(page.getLength());
                     sb.append("  \tPoints To = ").append(Integer.toHexString(page.getPointingCluster()));
+                    sb.append("  \tdir_entry = ").append(Integer.toHexString(page.getDirEntryInParentDir()));
                     if (page.getPointingCluster() >= 0 && page.getPointingCluster() < 0x1F70)
                         sb.append("  \tFAT says = ").append(Integer.toHexString(mc.getFAT().getFAT()[page.getClusterNumberOffset()]));
                     else
                         sb.append("  \tFAT says = Garbage");
+                    sb.append("  \tecc = ");
+                    for (byte b : page.getSpare())
+                        sb.append(Integer.toHexString(Byte.toUnsignedInt(b))).append(" ");
                     list.add(sb.toString());
                 } else {
                     StringBuilder sb = new StringBuilder("Page = ").append(Integer.toHexString(page.getPageNumber()));

@@ -25,12 +25,15 @@ package io.github.redpanda4552.PandaCard;
     
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Optional;
 
 import io.github.redpanda4552.PandaCard.JavaFX.AlertYesNo;
 import io.github.redpanda4552.PandaCard.JavaFX.Gui;
 import io.github.redpanda4552.PandaCard.MemoryCard.AbstractMemoryCard;
+import io.github.redpanda4552.PandaCard.MemoryCard.Directory;
 import io.github.redpanda4552.PandaCard.MemoryCard.File.FileMemoryCard;
 import io.github.redpanda4552.PandaCard.MemoryCard.Folder.FolderMemoryCard;
 import io.github.redpanda4552.PandaCard.SaveFiles.AbstractSave;
@@ -162,16 +165,78 @@ public class Main extends Application {
     }
     
     public void writeToFile(File file) {
+        if (file == null)
+            return;
+        
         if (memoryCard == null) {
             console("No content to export!");
+            return;
+        }
+        
+        try {
+            file.createNewFile();
+            OutBuffer buf = new OutBuffer();
+            buf.autoSuperblock(memoryCard);
+            
+            Directory rootDir = memoryCard.getRootDirectory();
+            
+        } catch (IOException e) {
+            console("Exception while creating file " + file.getName() + ": " + e.getMessage());
             return;
         }
     }
     
-    public void writeToFolder() {
+    public void writeToFolder(File file) {
+        if (file == null)
+            return;
+        
         if (memoryCard == null) {
             console("No content to export!");
             return;
         }
+        
+        OutBuffer buf = new OutBuffer();
+        
+        try {
+            // Superblock
+            buf.autoSuperblock(memoryCard);
+            File superblockFile = new File(file.getPath() + "/_pcsx2_superblock");
+            superblockFile.createNewFile();
+            OutputStream superblockStream = Files.newOutputStream(superblockFile.toPath());
+            superblockStream.write(buf.getSuperblock());
+            superblockStream.close();
+            
+            // Directories
+            Directory rootDir = memoryCard.getRootDirectory();
+            
+            for (Directory gameDir : rootDir.getSubdirectories()) {
+                File gameFolder = new File(file.getPath() + "/" + gameDir.getDirectoryName());
+                ArrayList<Directory> writeQueue = new ArrayList<Directory>();
+                
+                for (Directory fileDir : gameDir.getSubdirectories()) {
+                    if (fileDir.getPS2File() != null) {
+                        if (!fileDir.isDeleted() || Config.attemptToWriteDeleted) {
+                            writeQueue.add(fileDir);
+                        }
+                    }
+                }
+                
+                if (writeQueue.size() > 0) {
+                    gameFolder.mkdir();
+                    
+                    for (Directory toWrite : writeQueue) {
+                        File gameFile = new File(gameFolder.getPath() + "/" + toWrite.getPS2File().getFileName());
+                        gameFile.createNewFile();
+                        OutputStream gameFileStream = Files.newOutputStream(gameFile.toPath());
+                        gameFileStream.write(toWrite.getPS2File().getData());
+                        gameFileStream.close();
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        console("Memory Card contents written to " + file.getName());
     }
 }

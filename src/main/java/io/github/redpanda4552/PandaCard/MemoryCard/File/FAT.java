@@ -44,6 +44,10 @@ public class FAT {
         return fat;
     }
     
+    public long getFATAt(int position) {
+        return Integer.toUnsignedLong(fat[position]);
+    }
+    
     /**
      * Finds the first occurrence of a gap large enough to fit a number of clusters.
      */

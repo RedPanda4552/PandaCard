@@ -32,13 +32,15 @@ import java.util.ArrayList;
 import io.github.redpanda4552.PandaCard.MemoryCard.File.FileMemoryCard;
 import io.github.redpanda4552.PandaCard.MemoryCard.File.FileMemoryCardPageData;
 import io.github.redpanda4552.PandaCard.util.PS2File;
+import io.github.redpanda4552.PandaCard.util.PS2Time;
 
 public class Directory {
 
     private final int PAGE_SIZE = 512, LAST_CLUSTER = 0xffffffff, FREE_CLUSTER = 0x7fffffff;
     
+    private PS2Time created, modified;
     private String directoryName;
-    private FileMemoryCardPageData firstPage, secondPage;
+    private FileMemoryCardPageData firstPage, secondPage, directoryEntryForFile;
     private ArrayList<Directory> subdirectories = new ArrayList<Directory>();
     private PS2File ps2File;
     private boolean deleted = false;
@@ -80,7 +82,9 @@ public class Directory {
     /**
      * High tech, recursive constructor for an initial directory build on a file memory card.
      */
-    public Directory(FileMemoryCard memoryCard, FileMemoryCardPageData[] pages, String directoryName, int parentPageIndex, int clusterIndex, boolean isFile, boolean deleted, boolean isRoot) {
+    public Directory(FileMemoryCard memoryCard, FileMemoryCardPageData[] pages, String directoryName, PS2Time created, PS2Time modified, int parentPageIndex, int clusterIndex, boolean isFile, boolean deleted, boolean isRoot) {
+        this.created = created;
+        this.modified = modified;
         this.directoryName = directoryName;
         this.deleted = deleted;
         boolean nextDeleted = false;
@@ -92,7 +96,7 @@ public class Directory {
                 
                 if (firstPage.isValidDirectory()) {
                     if (!firstPage.getName().trim().startsWith(".") && !firstPage.getName().trim().endsWith(".")) {
-                        subdirectories.add(new Directory(memoryCard, pages, firstPage.getName().trim(), firstPage.getPageNumberOffset(), firstPage.getPointingCluster(), firstPage.isFile(), nextDeleted, false));
+                        subdirectories.add(new Directory(memoryCard, pages, firstPage.getName().trim(), firstPage.getCreated(), firstPage.getModified(), firstPage.getPageNumberOffset(), firstPage.getPointingCluster(), firstPage.isFile(), nextDeleted, false));
                     }
                 } else {
                     return;
@@ -101,7 +105,7 @@ public class Directory {
                 
                 if (secondPage.isValidDirectory()) {
                     if (!secondPage.getName().trim().startsWith(".") && !secondPage.getName().trim().endsWith(".")) {
-                        subdirectories.add(new Directory(memoryCard, pages, secondPage.getName().trim(), secondPage.getPageNumberOffset(), secondPage.getPointingCluster(), secondPage.isFile(), nextDeleted, false));
+                        subdirectories.add(new Directory(memoryCard, pages, secondPage.getName().trim(), secondPage.getCreated(), secondPage.getModified(), secondPage.getPageNumberOffset(), secondPage.getPointingCluster(), secondPage.isFile(), nextDeleted, false));
                     }
                 } else {
                     return;
@@ -119,22 +123,44 @@ public class Directory {
         } else {
             int bytesCopied;
             byte[] fileBytes;
-            FileMemoryCardPageData directoryEntryForFile = pages[parentPageIndex], page;
+            directoryEntryForFile = pages[parentPageIndex];
             
             bytesCopied = 0;
             fileBytes = new byte[directoryEntryForFile.getLength()];
-            page = pages[directoryEntryForFile.getPointingCluster() * 2];
+            FileMemoryCardPageData page = pages[directoryEntryForFile.getPointingCluster() * 2];
             
             while (bytesCopied < directoryEntryForFile.getLength()) {
                 fileBytes[bytesCopied] = page.getData()[bytesCopied % PAGE_SIZE];
                 
                 if (++bytesCopied % PAGE_SIZE == 0) {
-                    page = pages[page.getPageNumberOffset() + 1];
+                    if (page.getPageNumberOffset() % 2 == 0) {
+                        page = pages[page.getPageNumberOffset() + 1];
+                    } else {
+                        int next = memoryCard.getFAT().getFAT()[page.getClusterNumberOffset()];
+                        
+                        if (next == -1) {
+                            break;
+                        } else {
+                            // Because the folks at Sony decided the sign bit was
+                            // the best way to indicate the FAT item was in use.
+                            next &= 0x7fffffff;
+                        }
+                        
+                        page = pages[next * 2];
+                    }
                 }
             }
             
             ps2File = new PS2File(directoryEntryForFile.getName(), fileBytes);
         }
+    }
+    
+    public PS2Time getCreated() {
+        return created;
+    }
+    
+    public PS2Time getModified() {
+        return modified;
     }
     
     public String getDirectoryName() {
@@ -155,5 +181,13 @@ public class Directory {
     
     public PS2File getPS2File() {
         return ps2File;
+    }
+    
+    /**
+     * If this directory entry is of File type, return its page object.
+     * If not, returns null.
+     */
+    public FileMemoryCardPageData getDirectoryEntryForFile() {
+        return directoryEntryForFile;
     }
 }

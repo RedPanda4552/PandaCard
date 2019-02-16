@@ -26,6 +26,8 @@ package io.github.redpanda4552.PandaCard.MemoryCard.File;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
+import io.github.redpanda4552.PandaCard.util.PS2Time;
+
 public class FileMemoryCardPageData extends FileMemoryCardPage {
 
     public FileMemoryCardPageData(int pageNumber, byte[] rawData) {
@@ -33,7 +35,7 @@ public class FileMemoryCardPageData extends FileMemoryCardPage {
     }
     
     /**
-     * Gets the index of this page, <i>taking into account the offset of the allocatable clusters</i>.
+     * Gets the index of this page, <i>subtracting the offset of the allocatable clusters</i>.
      * 
      */
     public int getPageNumberOffset() {
@@ -41,10 +43,12 @@ public class FileMemoryCardPageData extends FileMemoryCardPage {
     }
     
     /**
-     * Gets the index of this page, <i>taking into account the offset of the allocatable clusters</i>.
+     * Gets the index of this page, <i>subtracting the offset of the allocatable clusters</i>.
      * @return
      */
     public int getClusterNumberOffset() {
+        int ret = Math.floorDiv(pageNumber - 0x52, 2);
+        
         return (int) Math.floorDiv(pageNumber - 0x52, 2);
     }
     
@@ -78,16 +82,11 @@ public class FileMemoryCardPageData extends FileMemoryCardPage {
         return (data[0] & 0x20) == 0x20;
     }
     
-    /**
-     * Get the cluster that this page is pointing to.
-     * Only effective for directory entries, file data will likely give back straight garbage.
-     */
-    public int getPointingCluster() {
+    public int getMode() {
         byte[] bytes = new byte[4];
         
-        for (int i = 0; i < 4; i++) {
-            bytes[i] = data[0x10 + i];
-        }
+        for (int i = 0; i < 2; i++)
+            bytes[i] = data[i];
         
         return ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).getInt();
     }
@@ -107,20 +106,50 @@ public class FileMemoryCardPageData extends FileMemoryCardPage {
         return ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).getInt();
     }
     
-    /**
-     * Get the name of a directory entry. Only effective for directory entries,
-     * file data will likely give back straight garbage.
-     */
-    public String getName() {
-        String ret = new String();
+    public PS2Time getCreated() {
+        byte[] bytes = new byte[8];
         
-        // Technically a directory name CAN span the entire dead space of the directory.
-        // So for safety we will check it. But likely story is it's just all nulls.
-        for (int i = 0x40; i < data.length; i++) {
-            ret += Character.valueOf((char) data[i]);
+        for (int i = 0; i < 8; i++) {
+            bytes[i] = data[0x08 + i];
         }
         
-        return ret;
+        ByteBuffer buf = ByteBuffer.wrap(bytes, 6, 2).order(ByteOrder.LITTLE_ENDIAN);
+        return new PS2Time(bytes[1], bytes[2], bytes[3], bytes[4], bytes[5], ((ByteBuffer) buf.flip()).getInt());
+    }
+    
+    /**
+     * Get the cluster that this page is pointing to.
+     * Only effective for directory entries, file data will likely give back straight garbage.
+     */
+    public int getPointingCluster() {
+        byte[] bytes = new byte[4];
+        
+        for (int i = 0; i < 4; i++) {
+            bytes[i] = data[0x10 + i];
+        }
+        
+        return ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).getInt();
+    }
+    
+    public int getDirEntryInParentDir() {
+        byte[] bytes = new byte[4];
+        
+        for (int i = 0; i < 4; i++) {
+            bytes[i] = data[0x14 + i];
+        }
+        
+        return ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).getInt();
+    }
+    
+    public PS2Time getModified() {
+        byte[] bytes = new byte[8];
+        
+        for (int i = 0; i < 8; i++) {
+            bytes[i] = data[0x18 + i];
+        }
+        
+        ByteBuffer buf = ByteBuffer.wrap(bytes, 6, 2).order(ByteOrder.LITTLE_ENDIAN);
+        return new PS2Time(bytes[1], bytes[2], bytes[3], bytes[4], bytes[5], ((ByteBuffer) buf.flip()).getInt());
     }
     
     /**
@@ -133,6 +162,22 @@ public class FileMemoryCardPageData extends FileMemoryCardPage {
         String ret = new String();
         
         for (int i = 0x20; i < 0x40; i++) {
+            ret += Character.valueOf((char) data[i]);
+        }
+        
+        return ret;
+    }
+    
+    /**
+     * Get the name of a directory entry. Only effective for directory entries,
+     * file data will likely give back straight garbage.
+     */
+    public String getName() {
+        String ret = new String();
+        
+        // Technically a directory name CAN span the entire dead space of the directory.
+        // So for safety we will check it. But likely story is it's just all nulls.
+        for (int i = 0x40; i < data.length; i++) {
             ret += Character.valueOf((char) data[i]);
         }
         

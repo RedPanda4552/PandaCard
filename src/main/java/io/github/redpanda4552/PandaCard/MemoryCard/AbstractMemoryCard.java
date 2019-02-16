@@ -47,6 +47,7 @@ public abstract class AbstractMemoryCard {
     
     protected File hostFile;
     protected Directory directory;
+    protected String version;
     protected boolean formatted, modified = false;
     
     public AbstractMemoryCard(File file) {
@@ -62,6 +63,10 @@ public abstract class AbstractMemoryCard {
     
     public Directory getRootDirectory() {
         return directory;
+    }
+    
+    public String getVersion() {
+        return version;
     }
     
     public boolean isFormatted() {
