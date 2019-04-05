@@ -66,8 +66,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         self = this;
-        gameDB = new GameDB();
         guiMain = new Gui(this, primaryStage);
+        gameDB = new GameDB();
     }
     
     public void console(String... strArr) {
